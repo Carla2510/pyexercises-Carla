@@ -26,10 +26,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. My two fields, and what I would do with them:
+# 1. In:my name and my age
+# 2. Process:adding my name and my age in a code
+# 3. Out: givinf my name and age 
+# 4. My two fields, and what I would do with them:i know how to code to say python my name and age in a code
 
 
 # Your code below
@@ -37,3 +37,5 @@ name = input("Enter your name: ")
 age = input("Enter your age: ")
 print("My name is",name)
 print("My age is",age)
+
+print("My name is" + name + "and my age is " + age)
