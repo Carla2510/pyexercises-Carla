@@ -31,3 +31,12 @@ DELIVERABLE
 
 
 # Your code below
+number_1 =int(input("Enter number 1: "))
+number_2 =int(input("Enter number 2: "))
+
+print("The number 1 is : ", number_1)
+print("The number 2 is : ", number_2)
+
+# addition of two numbers
+sum = number_1 + number_2
+print("The sum of two number is: ", sum)
