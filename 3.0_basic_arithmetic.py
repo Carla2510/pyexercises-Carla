@@ -24,10 +24,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. What happens when the second number is zero, and why:
+# 1. In:resultat of calcul
+# 2. Process:the code give us the answer of all four operations
+# 3. Out:give us the answer
+# 4. What happens when the second number is zero, and why:we have to create an another variable to adjust it 
 
 
 # Your code below
