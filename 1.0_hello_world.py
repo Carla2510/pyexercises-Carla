@@ -22,10 +22,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. My message, and why:
+# 1. In:my name
+# 2. Process:printing my name
+# 3. Out:printing my name 2 time
+# 4. My message, and why: just printed my name 2 times
 
 
 # Your code below
