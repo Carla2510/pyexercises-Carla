@@ -40,8 +40,18 @@ i = 0
 while i < 5:
     print("i is currently", i)
     i += 1
-    
+
 
 while i < 5:
     print("i is currently", i)
     i += 1
+
+while True:
+    answer = input("Do you want to continue? (yes/no): ")
+    if answer.lower().strip() == "no":
+        print("You chose to stop the loop.")
+        break
+    elif answer.lower().strip() == "yes":
+        print("You chose to continue the loop.")
+    else:
+        print("Invalid input. Please answer 'yes' or 'no'.")    
