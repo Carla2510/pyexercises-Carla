@@ -31,3 +31,12 @@ DELIVERABLE
 
 
 # Your code below
+
+names = ["Carla", "John", "Alice", "Bob", "Eve", "Charlie", "David", "Frank"]
+
+print("List of names and their lengths:")
+
+for name in names:
+    length = len(name)
+    print(f"Name: {name}, Length: {length}")
+    
