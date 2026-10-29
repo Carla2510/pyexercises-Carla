@@ -30,3 +30,26 @@ DELIVERABLE
 
 
 # Your code below
+
+name = input("Enter your name: ")
+age = input("Enter your age: ")
+city = input("Enter your city: ")
+country = input("Enter your country: ")
+
+print("My name is",name)
+print("My age is",age)
+print("My city is",city)
+print("My country is",country)
+
+
+person = {
+    "name": name,
+    "age": age,
+    "city": city,
+    "country": country,
+}   
+
+print("The person's name is:", person["name"])
+print("The person's age is:", person["age"])
+print("The person's city is:", person["city"])
+print("The person's country is:", person["country"])
