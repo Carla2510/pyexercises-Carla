@@ -33,3 +33,20 @@ What is the first argument of the `print()` function in the example above?
 **Tutor:**
 
 Refused, off topic.
+
+---
+## 2026-10-29 09:52, in .
+
+**Me:** How to get user input in python
+
+**Tutor:**
+
+Reading user input is done with the built-in `input()` function.
+
+```python
+# TODO: ask the user for their name and store it
+user_name = input("Enter your name: ")
+print("Hello,", user_name)
+```
+
+What does `input()` always return?
