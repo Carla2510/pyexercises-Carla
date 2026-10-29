@@ -33,3 +33,27 @@ DELIVERABLE
 
 
 # Your code below
+number_1= 4
+number_2 = 5
+number_3 = 6
+number_4 = 7
+number_5 = 8
+number_6 = 9
+
+print(number_1)
+print(number_2)
+print(number_3)
+print(number_4)
+print(number_5)
+print(number_6)
+
+list=[4 ,5, 6, 7, 8, 9, 10, 11, 12, 2, 1]
+
+print(list)
+print(list [3])
+
+list.sort()
+print("sorted list:",list)
+
+list.pop()
+print("list after removing the last item :", list)
