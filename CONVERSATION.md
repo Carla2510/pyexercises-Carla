@@ -294,3 +294,21 @@ Refused, off topic.
 **Tutor:**
 
 Refused, off topic.
+
+---
+## 2026-10-29 11:44, in .
+
+**Me:** how to write a while loop in pyhton
+
+**Tutor:**
+
+A while loop runs a block as long as a condition is True.
+
+```python
+count = 0
+while count < 3:      # TODO: change the condition so it stops after 3 runs
+    print("tick")     # TODO: replace this line with your own action
+    count = count + 1
+```
+
+Which built-in function do you use to increase `count` by 1?
