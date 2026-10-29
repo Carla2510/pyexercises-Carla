@@ -35,3 +35,13 @@ DELIVERABLE
 
 
 # Your code below
+
+i = 0
+while i < 5:
+    print("i is currently", i)
+    i += 1
+    
+
+while i < 5:
+    print("i is currently", i)
+    i += 1
