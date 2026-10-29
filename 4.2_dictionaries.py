@@ -53,3 +53,7 @@ print("The person's name is:", person["name"])
 print("The person's age is:", person["age"])
 print("The person's city is:", person["city"])
 print("The person's country is:", person["country"])
+
+person_age = person.pop("age")
+print("The person's age has been removed. The removed age is:", person_age)
+print("The person's remaining fields are:", person)
