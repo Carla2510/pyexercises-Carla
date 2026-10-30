@@ -24,10 +24,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. What happens on 0, on a negative number, on a very large number:
+# 1. In: one number choose from the user
+# 2. Process: the program will check if the number is odd or even and print the result for each number from 1 to N
+# 3. Out: one line per number from 1 to N, saying whether it is odd or even
+# 4. What happens on 0, on a negative number, on a very large number: the program will print a message saying that N must be at least 1 for 0 and negative numbers, and for very large numbers (greater than 1000), it will print a message saying that N is too large and ask the user to enter 1000 or less.
 
 
 # Your code below
