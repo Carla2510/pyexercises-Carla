@@ -36,22 +36,33 @@ DELIVERABLE
 
 # Your code below
 
-i = 0
-while i < 5:
-    print("i is currently", i)
-    i += 1
+MAX_ATTEMPTS = 5
 
+attempts = 0
+yes_count = 0
+invalid_count = 0
+reason = ""
 
-while i < 5:
-    print("i is currently", i)
-    i += 1
+while attempts < MAX_ATTEMPTS:
+    answer = input("Do you want to continue? (yes/no): ").strip().lower()
+    attempts += 1
 
-while True:
-    answer = input("Do you want to continue? (yes/no): ")
-    if answer.lower().strip() == "no":
-        print("You chose to stop the loop.")
+    if answer == "no":
+        reason = "the user answered no"
         break
-    elif answer.lower().strip() == "yes":
-        print("You chose to continue the loop.")
+    elif answer == "yes":
+        yes_count += 1
+        print("You chose to continue.")
     else:
-        print("Invalid input. Please answer 'yes' or 'no'.")    
+        invalid_count += 1
+        print("Invalid input. Please answer 'yes' or 'no'.")
+else:
+    reason = "the limit of " + str(MAX_ATTEMPTS) + " attempts was reached"
+    print("Maximum number of attempts reached, the program stops.")
+
+print("--- Summary ---")
+print("Attempts:", attempts)
+print("Yes answers:", yes_count)
+print("Invalid answers:", invalid_count)
+print("Loop stopped because", reason)
+  
