@@ -23,10 +23,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. My object, my five fields, and why those:
+# 1. In: nothing type by the user, only the code will give us the answer
+# 2. Process: the program will manipulate the dictionary in various ways
+# 3. Out: the name, age, city, and country of the person, and the remaining fields after removing the age field
+# 4. My object, my five fields, and why those: I described a person, and I chose the fields name, age, city, and country because they are basic information that is often needed to describe a person. I also chose to remove the age field to demonstrate how to remove a field from a dictionary.
 
 
 # Your code below

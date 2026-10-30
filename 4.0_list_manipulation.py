@@ -26,10 +26,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. What my list is about, and what I computed from it:
+# 1. In: nothing type by the user, only the code will give us the answer
+# 2. Process: the program will manipulate the list in various ways
+# 3. Out: the original list and the manipulated lists   
+# 4. What my list is about, and what I computed from it:my list is about numbers and I computed the sum of all the numbers in the list, which is interesting because it gives us the total of all the numbers in the list.
 
 
 # Your code below
