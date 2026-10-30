@@ -24,22 +24,16 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. What I compute for each item, and why it is worth showing:
+# 1. In: the list from exercise 4.0
+# 2. Process: the program will iterate through the list and for each item, it will compute its square and display the item, its position, and the computed square
+# 3. Out: one line per item in the list, showing the item, its position, and its square
+# 4. What I compute for each item, and why it is worth showing: I compute the square of each number in the list, which demonstrates a simple mathematical operation and shows how for loops can be used to perform operations on each element of a list.    
 
 
 # Your code below
 
-names = ["Carla", "John", "Alice", "Bob", "Eve", "Charlie", "David", "Frank"]
+my_list = [4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 1]
 
-print("List of names and their lengths:")
-
-i = " Carla"
-
-for i, in names:
-    length = len(names)
-    print(f"Name: {names : <i>}, Length: {length}")
-                     
-    
+for position, number in enumerate(my_list, start=1):
+    square = number ** 2
+    print(f"Item {position}: value = {number}, square = {square}")
