@@ -3,45 +3,45 @@
 # Group: Group A
 
 """
-================================================================================
-ANSWERS TO THE 4 QUESTIONS (from brief slide 9)
-================================================================================
+
 
 1. What goes in?
-   The game loads 'scenarios_A.csv' using Python's standard csv module.
-   - Separator: comma (,).
-   - Columns: 14 columns per row (ID, Scenario, OptionA, OptionB, OptionC,
-     BudgetA, BudgetB, BudgetC, ReputationA, ReputationB, ReputationC,
-     FeedbackA, FeedbackB, FeedbackC).
-   - Format of numbers: signed integers as text (e.g. -2000, 0, 15), converted
-     to int in Python.
+  We load our group's scenario file, 'scenarios_A.csv', directly using Python's
+   built-in csv module (no pandas or extra libraries needed). The file is comma-separated
+   and has 14 columns: the ID, the situation description, the three choices (A, B, C),
+   and the respective budget impacts, reputation impacts, and feedback messages for each.
+   The numerical values are formatted as signed integers (like -2000 or 15) which we
+   parse with int() to do the math.
 
 2. What happens?
-   Each of the 10 days follows this step-by-step process:
-   - Display day number and gauges (Budget & Reputation).
-   - Print the situation and options A, B, and C.
-   - Ask player for A, B or C, looping until valid input is given.
-   - Retrieve the chosen option tuple (text, budget_change, rep_change, feedback).
-   - Apply changes to gauges (capping reputation at 100).
-   - Show the scenario feedback and exact gauge impacts.
-   - Record the move in history for end-game analysis.
-   - Check streak bonus (Feature a): 3 reputation gains in a row give +500 EUR.
-   - Check if budget or reputation <= 0: trigger game over and stop immediately.
+   Every single day of the 10-day run follows the exact same workflow:
+   - Print the day counter (Day 1 to 10) along with current gauges (Budget & Reputation).
+   - Display the daily crisis and the three options: A, B, and C.
+   - Prompt the user for an input; if it's invalid, keep asking until we get A, B, or C.
+   - Grab the corresponding option tuple containing all its effects.
+   - Update both gauges (making sure reputation never goes past the 100 cap).
+   - Show the scenario's feedback line and the impact on cash and brand reputation.
+   - Append the move to our history list so we can easily track our best and worst decisions.
+   - Check the streak bonus (+500 EUR if the player pulls off 3 reputation gains in a row).
+   - If either gauge hits zero or below, trigger an instant game over and get fired.
 
 3. What comes out?
-   - In terminal: Final result showing either 'Fired' and the cause, or 'Quarter survived'
-     with final score, title (Eternal Intern, Growth Hacker, CMO Material, Viral Legend),
-     and the best and worst moves.
-   - In 'results.csv': One appended line per game formatted as:
-     name,budget,reputation,title,date (e.g. Alice,6350,100,CMO Material,2026-11-03 15:30)
+   - On screen: either a termination message explaining why we got fired, or a victory
+     summary if we survived with our final score, official marketing title (from Eternal
+     Intern to Viral Legend), and our best/worst moves of the quarter.
+   - In 'results.csv': we append a new row storing the run's data (name, remaining budget,
+     reputation, title earned, and date/time).
 
 4. What could go wrong?
-   - Invalid or lowercase input: handled by .strip().upper() inside a while loop.
-   - Gauge hits zero: handled by an immediate check breaking the loop cleanly.
-   - Missing scenario file: handled with os.path.exists and a fallback to alternative names.
+   - The user enters lowercase letters or extra spaces: handled cleanly with .strip().upper().
+   - The user types a wrong key or leaves it blank: handled with a while loop that keeps asking
+     without crashing the script.
+   - A gauge drops to zero mid-game: handled with an immediate conditional check that breaks
+     out of the loop cleanly.
+
 
 ================================================================================
-CHOSEN FEATURE (Mandatory 2, brief slide 10)
+CHOSEN FEATURE 
 ================================================================================
 Chosen Feature: Feature (a) — Streak bonus
 Why:
