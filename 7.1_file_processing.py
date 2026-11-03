@@ -49,3 +49,65 @@ DELIVERABLE
 
 
 # Your code below
+
+import os
+
+INPUT_FILE = "names.txt"
+OUTPUT_FILE = "cleaned_names.txt"
+
+
+def clean_and_parse_line(raw_line: str) -> tuple[str, str] | None:
+    """Cleans whitespace and casing, returning (first_name, last_name), or None if line is blank."""
+    words = raw_line.strip().split()
+    if not words:
+        return None
+
+    # Handle standard case (at least First and Last) or single token
+    if len(words) == 1:
+        first_name = ""
+        last_name = words[0].capitalize()
+    else:
+        first_name = " ".join(word.capitalize() for word in words[:-1])
+        last_name = words[-1].capitalize()
+
+    return first_name, last_name
+
+
+def main():
+    if not os.path.exists(INPUT_FILE):
+        print(f"Error: '{INPUT_FILE}' was not found in the current folder.")
+        return
+
+    unique_names = set()
+    raw_line_count = 0
+
+    with open(INPUT_FILE, mode="r", encoding="utf-8") as infile:
+        for line in infile:
+            raw_line_count += 1
+            parsed = clean_and_parse_line(line)
+            if parsed is not None:
+                unique_names.add(parsed)
+
+    # Sort primarily by last name (case-insensitive), secondarily by first name
+    sorted_names = sorted(
+        unique_names,
+        key=lambda person: (person[1].lower(), person[0].lower()),
+    )
+
+    with open(OUTPUT_FILE, mode="w", encoding="utf-8") as outfile:
+        for first, last in sorted_names:
+            full_name = f"{first} {last}".strip()
+            outfile.write(full_name + "\n")
+
+    print(f"Processing complete:")
+    print(f"  - Raw lines read from '{INPUT_FILE}': {raw_line_count}")
+    print(f"  - Cleaned, sorted lines written to '{OUTPUT_FILE}': {len(sorted_names)}")
+    if sorted_names:
+        first_entry = f"{sorted_names[0][0]} {sorted_names[0][1]}".strip()
+        last_entry = f"{sorted_names[-1][0]} {sorted_names[-1][1]}".strip()
+        print(f"  - First entry: {first_entry}")
+        print(f"  - Last entry:  {last_entry}")
+
+
+if __name__ == "__main__":
+    main()
