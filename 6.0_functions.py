@@ -26,12 +26,10 @@ DELIVERABLE
     This file, with your comments and your code.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out:
-# 4. My function name, and why return rather than print:
-
-
+# 1. In:a list of numbers (integers or floats)
+# 2. Process: it checks if the list is empty, and if not, it calculates the length of the list and the sum of its elements.
+# 3. Out: a float representing the arithmetic mean of the numbers in the list, or a message indicating that the list is empty.
+# 4. My function name, and why return rather than print:use print statements to display the results, but return the computed values so they can be used later in the program or tested. Returning values allows for greater flexibility and reusability of the function.
 # Your code below
 def greet(items):
     if not items:

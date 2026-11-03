@@ -7,11 +7,11 @@
 
 1. What goes in?
   We load our group's scenario file, 'scenarios_A.csv', directly using Python's
-   built-in csv module (no pandas or extra libraries needed). The file is comma-separated
+   built-in csv module.
    and has 14 columns: the ID, the situation description, the three choices (A, B, C),
    and the respective budget impacts, reputation impacts, and feedback messages for each.
    The numerical values are formatted as signed integers (like -2000 or 15) which we
-   parse with int() to do the math.
+ parse with int() to do the math.
 
 2. What happens?
    Every single day of the 10-day run follows the exact same workflow:

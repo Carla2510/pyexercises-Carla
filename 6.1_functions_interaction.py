@@ -35,3 +35,45 @@ DELIVERABLE
 
 
 # Your code below
+
+def filter_positive_numbers(numbers: list[int | float]) -> list[int | float]:
+    """Returns a list containing only numbers strictly greater than zero."""
+    return [num for num in numbers if num > 0]
+
+
+# Function 2: One job -> summing
+def sum_numbers(numbers: list[int | float]) -> int | float:
+    """Returns the sum of all elements in the given list."""
+    return sum(numbers)
+
+
+# Function 3: One job -> counting
+def count_numbers(numbers: list[int | float]) -> int:
+    """Returns the number of elements in the given list."""
+    return len(numbers)
+
+
+# Function 4: Orchestrator -> uses the other three
+def calculate_average_of_positives(numbers: list[int | float]) -> float:
+    """Calculates the mean of all positive numbers in the list."""
+    positives = filter_positive_numbers(numbers)
+    if not positives:
+        return 0.0
+    total = sum_numbers(positives)
+    count = count_numbers(positives)
+    return total / count
+
+
+# --- Execution and Demonstration ---
+
+# Individual tests for each small function
+test_data = [10, -5, 20, -1, 30]
+
+print("--- Individual Tests ---")
+print("1. filter_positive_numbers:", filter_positive_numbers(test_data))
+print("2. sum_numbers:", sum_numbers([10, 20, 30]))
+print("3. count_numbers:", count_numbers([10, 20, 30]))
+
+print("\n--- Fourth Function Combined Test ---")
+result = calculate_average_of_positives(test_data)
+print(f"Average of positives: {result}")
