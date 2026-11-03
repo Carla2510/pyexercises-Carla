@@ -355,3 +355,21 @@ Refused, off topic.
 **Tutor:**
 
 Refused, off topic.
+
+---
+## 2026-11-03 17:32, in .
+
+**Me:** what is the function count
+
+**Tutor:**
+
+The `count` function tells you how many times a specific value appears inside a list, string, or other sequence.
+
+```python
+# Counting occurrences in a list
+shopping = ["apple", "banana", "apple", "orange", "banana", "apple"]
+apple_count = shopping.count("apple")  # TODO: what does this return?
+print(apple_count)
+```
+
+What argument does `count` take?

@@ -64,7 +64,6 @@ def calculate_average_of_positives(numbers: list[int | float]) -> float:
     return total / count
 
 
-# --- Execution and Demonstration ---
 
 # Individual tests for each small function
 test_data = [10, -5, 20, -1, 30]
