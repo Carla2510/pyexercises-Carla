@@ -1,0 +1,254 @@
+# Survive the Quarter — Croissant Rocket
+# Student: Carla LEBRETTE
+# Group: Group A
+
+"""
+================================================================================
+ANSWERS TO THE 4 QUESTIONS (from brief slide 9)
+================================================================================
+
+1. What goes in?
+   The game loads 'scenarios_A.csv' using Python's standard csv module.
+   - Separator: comma (,).
+   - Columns: 14 columns per row (ID, Scenario, OptionA, OptionB, OptionC,
+     BudgetA, BudgetB, BudgetC, ReputationA, ReputationB, ReputationC,
+     FeedbackA, FeedbackB, FeedbackC).
+   - Format of numbers: signed integers as text (e.g. -2000, 0, 15), converted
+     to int in Python.
+
+2. What happens?
+   Each of the 10 days follows this step-by-step process:
+   - Display day number and gauges (Budget & Reputation).
+   - Print the situation and options A, B, and C.
+   - Ask player for A, B or C, looping until valid input is given.
+   - Retrieve the chosen option tuple (text, budget_change, rep_change, feedback).
+   - Apply changes to gauges (capping reputation at 100).
+   - Show the scenario feedback and exact gauge impacts.
+   - Record the move in history for end-game analysis.
+   - Check streak bonus (Feature a): 3 reputation gains in a row give +500 EUR.
+   - Check if budget or reputation <= 0: trigger game over and stop immediately.
+
+3. What comes out?
+   - In terminal: Final result showing either 'Fired' and the cause, or 'Quarter survived'
+     with final score, title (Eternal Intern, Growth Hacker, CMO Material, Viral Legend),
+     and the best and worst moves.
+   - In 'results.csv': One appended line per game formatted as:
+     name,budget,reputation,title,date (e.g. Alice,6350,100,CMO Material,2026-11-03 15:30)
+
+4. What could go wrong?
+   - Invalid or lowercase input: handled by .strip().upper() inside a while loop.
+   - Gauge hits zero: handled by an immediate check breaking the loop cleanly.
+   - Missing scenario file: handled with os.path.exists and a fallback to alternative names.
+
+================================================================================
+CHOSEN FEATURE (Mandatory 2, brief slide 10)
+================================================================================
+Chosen Feature: Feature (a) — Streak bonus
+Why:
+Rewarding three consecutive positive reputation decisions with +500 EUR simulates
+marketing momentum: consistent positive brand perception drives sales and brings in cash.
+"""
+
+import csv
+import os
+import random
+from datetime import datetime
+
+
+def load_scenarios(filename):
+    """
+    Reads the CSV scenario file and returns a list of dictionaries.
+    Each option is stored as a tuple: (text, budget_change, reputation_change, feedback).
+    """
+    scenarios = []
+    # Check primary filename, then fallback if file was downloaded as scenarios_A (1).csv
+    target_file = filename
+    if not os.path.exists(target_file):
+        if os.path.exists("scenarios_A (1).csv"):
+            target_file = "scenarios_A (1).csv"
+        else:
+            print(f"Error: File '{filename}' not found. Please place it in the same directory.")
+            return []
+
+    with open(target_file, mode="r", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        next(reader, None)  # Skip header row
+        for row in reader:
+            if not row or len(row) < 14:
+                continue
+            scenarios.append({
+                "id": int(row[0].strip()),
+                "scenario": row[1].strip(),
+                "options": {
+                    "A": (row[2].strip(), int(row[5].strip()), int(row[8].strip()), row[11].strip()),
+                    "B": (row[3].strip(), int(row[6].strip()), int(row[9].strip()), row[12].strip()),
+                    "C": (row[4].strip(), int(row[7].strip()), int(row[10].strip()), row[13].strip()),
+                }
+            })
+    return scenarios
+
+
+def get_player_choice():
+    """
+    Prompts the user for a choice (A, B, or C).
+    Re-prompts until valid input is entered.
+    """
+    choice = input("Your choice (A, B or C): ").strip().upper()
+    while choice not in ("A", "B", "C"):
+        choice = input("Please type A, B or C: ").strip().upper()
+    return choice
+
+
+def apply_choice(budget, reputation, option_tuple):
+    """
+    Applies the chosen option's impacts to budget and reputation.
+    Reputation is capped at 100.
+    Returns (budget, reputation) as a tuple to be unpacked.
+    """
+    _, budget_change, rep_change, _ = option_tuple
+    new_budget = budget + budget_change
+    new_reputation = min(100, reputation + rep_change)
+    return new_budget, new_reputation
+
+
+def calculate_score_and_title(budget, reputation, is_fired):
+    """
+    Calculates the final score and determines the marketing title according to the rules.
+    """
+    if is_fired or budget <= 0 or reputation <= 0:
+        return 0, "Fired"
+
+    score = reputation + (budget // 200)
+    if score < 95:
+        title = "Eternal Intern"
+    elif score <= 119:
+        title = "Growth Hacker"
+    elif score <= 139:
+        title = "CMO Material"
+    else:
+        title = "Viral Legend"
+    return score, title
+
+
+def save_result(filename, player_name, budget, reputation, title):
+    """
+    Appends one line with the game result to results.csv.
+    """
+    file_exists = os.path.exists(filename)
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    with open(filename, mode="a", encoding="utf-8", newline="") as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(["Name", "Budget", "Reputation", "Title", "Date"])
+        writer.writerow([player_name, budget, reputation, title, current_date])
+
+
+def main():
+    print("=" * 60)
+    print("🥐 CROISSANT ROCKET — SURVIVE THE QUARTER 🥐")
+    print("=" * 60)
+
+    player_name = input("Enter your name, Marketing Manager: ").strip()
+    if not player_name:
+        player_name = "Player"
+
+    scenarios = load_scenarios("scenarios_A.csv")
+    if not scenarios:
+        return
+
+    random.shuffle(scenarios)
+    days_scenarios = scenarios[:10]
+
+    budget = 10000
+    reputation = 50
+    streak_counter = 0
+    history = []  # Stores (rep_change, day_number, option_text)
+    is_fired = False
+    fire_reason = ""
+
+    print(f"\nWelcome aboard, {player_name}!")
+    print("Your goal: survive 10 days of marketing chaos.\n")
+
+    for day in range(1, 11):
+        sc = days_scenarios[day - 1]
+        print(f"Day {day}")
+        print(f"[Budget: {budget} EUR | Reputation: {reputation}/100]")
+        print(sc["scenario"])
+        print(f"A: {sc['options']['A'][0]}")
+        print(f"B: {sc['options']['B'][0]}")
+        print(f"C: {sc['options']['C'][0]}")
+
+        choice = get_player_choice()
+        selected_option = sc["options"][choice]
+        option_text, b_change, r_change, feedback = selected_option
+
+        # Unpack tuple returned by apply_choice
+        budget, reputation = apply_choice(budget, reputation, selected_option)
+
+        # Display feedback and gauge variation
+        b_str = f"+{b_change}" if b_change >= 0 else f"{b_change}"
+        r_str = f"+{r_change}" if r_change >= 0 else f"{r_change}"
+        print(f"\n{feedback}")
+        print(f"Budget {b_str} EUR, Reputation {r_str}")
+
+        # Store in history: reputation change first for python tuple comparison
+        history.append((r_change, day, option_text))
+
+        # Mandatory Feature a: Streak bonus (+500 EUR for 3 reputation gains in a row)
+        if r_change > 0:
+            streak_counter += 1
+            if streak_counter == 3:
+                budget += 500
+                print("🔥 STREAK BONUS! 3 reputation gains in a row! Budget +500 EUR.")
+                streak_counter = 0
+        else:
+            streak_counter = 0
+
+        # Check immediate firing conditions
+        if budget <= 0 or reputation <= 0:
+            is_fired = True
+            if budget <= 0 and reputation <= 0:
+                fire_reason = "Both budget and reputation hit zero."
+            elif budget <= 0:
+                fire_reason = "Budget ran out (<= 0 EUR). The bank stopped funding you."
+            else:
+                fire_reason = "Reputation collapsed (<= 0). The public canceled the brand."
+            print(f"\n[!] GAME OVER: {fire_reason}")
+            break
+
+        print("-" * 50 + "\n")
+
+    # End of game summary
+    print("\n" + "=" * 50)
+    score, title = calculate_score_and_title(budget, reputation, is_fired)
+
+    if is_fired:
+        print("❌ You were FIRED!")
+        print(f"Reason: {fire_reason}")
+        print(f"Final Budget: {budget} EUR | Final Reputation: {reputation}/100")
+    else:
+        print("🎉 Quarter survived!")
+        print(f"Budget left: {budget} EUR, reputation: {reputation}/100")
+        print(f"Final score: {score}")
+        print(f"{player_name}, your title: {title}")
+
+    # Best and worst moves via tuple comparison
+    if history:
+        best_rep, best_day, best_text = max(history)
+        worst_rep, worst_day, worst_text = min(history)
+        best_s = f"+{best_rep}" if best_rep >= 0 else f"{best_rep}"
+        worst_s = f"+{worst_rep}" if worst_rep >= 0 else f"{worst_rep}"
+        print(f'Best move: day {best_day}, "{best_text}" ({best_s})')
+        print(f'Worst move: day {worst_day}, "{worst_text}" ({worst_s})')
+
+    # Save line in results.csv
+    results_file = "results.csv"
+    save_result(results_file, player_name, budget, reputation, title)
+    print(f"Saved in {results_file}")
+    print("=" * 50)
+
+
+if __name__ == "__main__":
+    main()
+    
