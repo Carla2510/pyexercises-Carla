@@ -37,18 +37,77 @@ DELIVERABLE
 """
 
 # What is wrong with names.txt (found by reading it, not by guessing):
-# -
-# -
-# -
-# -
+# -Problem 1: Blank / empty lines scattered inside the file (e.g., between Hopper and Turing, and Rossum and Liskov).
+# - Problem 2: Leading spaces / indentation at the beginning of some lines (e.g., '  alan TURING', '  linus torvalds').
+# - Problem 3: Inconsistent casing across the file:
+#              * Some first names are lowercase ('ada', 'grace'), while others are uppercase ('GUIDO').
+#              * Some last names are in ALL CAPS ('LOVELACE', 'TURING', 'JOHNSON', 'LISKOV'),
+#                while others are in lowercase ('hopper', 'hamilton', 'torvalds', 'van rossum').
+# - Problem 4: Irregular word count per line: most lines contain two words (first and last name),
+#              but one line contains three words with a particle ('GUIDO van rossum').
+# 
 
-# 1. In:
-# 2. Process, problem by problem:
-# 3. Out:
-# 4. How I decide which word is the last name:
+# 1. In: a text file with names, one per line, with inconsistent formatting (whitespace, casing, and word count).
+# 2. Process, problem by problem: lank lines: checked with line.strip(); if empty, the line is skipped immediately.
+#    - Leading whitespace: stripped using .strip() or .split(), which eliminates unwanted spaces.
+#    - Inconsistent casing: normalized using .title() (or .capitalize()) on first names and last names,
+#      ensuring standard Title Case (e.g., 'Ada Lovelace').
+#    - Multi-word names: if a line contains more than 2 words (like 'GUIDO van rossum'),
+#      the first token is taken as the first name, and the remaining tokens form the compound last name.
+#    - Sorting: sorted alphabetically from A to Z based on the last name in lowercase.
+# 3. Out: A new file named 'cleaned_names.txt' containing exactly 8 properly formatted lines,
+#    sorted by last name from A to Z, without modifying 'names.txt'.
+# 4. How I decide which word is the last name: When splitting a standard line into words, Western naming order puts the first name first
+#    (index 0) and the family name at the end (index -1, or all words after index 0 for compound
+#    names such as 'van Rossum'). We sort by comparing the last name component in lowercase
+#    so that capitalization differences do not distort the alphabetical order.
 
 
 # Your code below
+
+"""
+Exercise 7.1 — Loading a file, cleaning it, saving the result (homework)
+
+# What is wrong with names.txt (found by reading it, not by guessing):
+# - Problem 1: Blank / empty lines scattered inside the file (e.g., between Hopper and Turing, and Rossum and Liskov).
+# - Problem 2: Leading spaces / indentation at the beginning of some lines (e.g., '  alan TURING', '  linus torvalds').
+# - Problem 3: Inconsistent casing across the file:
+#              * Some first names are lowercase ('ada', 'grace'), while others are uppercase ('GUIDO').
+#              * Some last names are in ALL CAPS ('LOVELACE', 'TURING', 'JOHNSON', 'LISKOV'),
+#                while others are in lowercase ('hopper', 'hamilton', 'torvalds', 'van rossum').
+# - Problem 4: Irregular word count per line: most lines contain two words (first and last name),
+#              but one line contains three words with a particle ('GUIDO van rossum').
+
+# 1. In:
+#    A text file named 'names.txt' containing 10 raw lines (including empty lines),
+#    with whitespace, case inconsistencies, and 8 computing pioneers' names.
+
+# 2. Process, problem by problem:
+#    - Blank lines: checked with line.strip(); if empty, the line is skipped immediately.
+#    - Leading whitespace: stripped using .strip() or .split(), which eliminates unwanted spaces.
+#    - Inconsistent casing: normalized using .title() (or .capitalize()) on first names and last names,
+#      ensuring standard Title Case (e.g., 'Ada Lovelace').
+#    - Multi-word names: if a line contains more than 2 words (like 'GUIDO van rossum'),
+#      the first token is taken as the first name, and the remaining tokens form the compound last name.
+#    - Sorting: sorted alphabetically from A to Z based on the last name in lowercase.
+
+# 3. Out:
+#    A new file named 'cleaned_names.txt' containing exactly 8 properly formatted lines,
+#    sorted by last name from A to Z, without modifying 'names.txt'.
+
+# 4. How I decide which word is the last name:
+#    When splitting a standard line into words, Western naming order puts the first name first
+#    (index 0) and the family name at the end (index -1, or all words after index 0 for compound
+#    names such as 'van Rossum'). We sort by comparing the last name component in lowercase
+#    so that capitalization differences do not distort the alphabetical order.
+
+# --- CHECK IT YOURSELF ---
+# - Lines in 'names.txt': 10 lines (8 names + 2 empty lines).
+# - Lines in 'cleaned_names.txt': 8 lines.
+# - Difference: Exactly 2 lines fewer because the 2 blank lines are eliminated.
+# - First person in sorted list: Margaret Hamilton (H)
+# - Last person in sorted list: Guido van Rossum (V) [or Alan Turing if sorted strictly on Rossum]
+"""
 
 import os
 
@@ -57,18 +116,32 @@ OUTPUT_FILE = "cleaned_names.txt"
 
 
 def clean_and_parse_line(raw_line: str) -> tuple[str, str] | None:
-    """Cleans whitespace and casing, returning (first_name, last_name), or None if line is blank."""
-    words = raw_line.strip().split()
-    if not words:
+    """
+    Cleans leading/trailing whitespace and normalizes casing.
+    Returns a tuple (first_name, last_name), or None if the line is empty.
+    """
+    cleaned_line = raw_line.strip()
+    if not cleaned_line:
         return None
 
-    # Handle standard case (at least First and Last) or single token
+    words = cleaned_line.split()
+
     if len(words) == 1:
         first_name = ""
-        last_name = words[0].capitalize()
+        last_name = words[0].title()
+    elif len(words) == 2:
+        first_name = words[0].title()
+        last_name = words[1].title()
     else:
-        first_name = " ".join(word.capitalize() for word in words[:-1])
-        last_name = words[-1].capitalize()
+        # Handles 3 words or more, e.g. "GUIDO van rossum"
+        first_name = words[0].title()
+        # Keep particles like 'van', 'de', 'von' lowercase or format as Title Case
+        particles = {"van", "von", "de", "del", "du"}
+        last_name_parts = [
+            w.lower() if w.lower() in particles else w.title()
+            for w in words[1:]
+        ]
+        last_name = " ".join(last_name_parts)
 
     return first_name, last_name
 
@@ -76,9 +149,10 @@ def clean_and_parse_line(raw_line: str) -> tuple[str, str] | None:
 def main():
     if not os.path.exists(INPUT_FILE):
         print(f"Error: '{INPUT_FILE}' was not found in the current folder.")
+        print("Please create 'names.txt' and paste your raw names inside.")
         return
 
-    unique_names = set()
+    cleaned_entries = []
     raw_line_count = 0
 
     with open(INPUT_FILE, mode="r", encoding="utf-8") as infile:
@@ -86,28 +160,30 @@ def main():
             raw_line_count += 1
             parsed = clean_and_parse_line(line)
             if parsed is not None:
-                unique_names.add(parsed)
+                cleaned_entries.append(parsed)
 
-    # Sort primarily by last name (case-insensitive), secondarily by first name
-    sorted_names = sorted(
-        unique_names,
-        key=lambda person: (person[1].lower(), person[0].lower()),
+    # Sort alphabetically by last name (case-insensitive)
+    sorted_entries = sorted(
+        cleaned_entries,
+        key=lambda person: (person[1].lower(), person[0].lower())
     )
 
+    # Write results to the new file without modifying the original
     with open(OUTPUT_FILE, mode="w", encoding="utf-8") as outfile:
-        for first, last in sorted_names:
+        for first, last in sorted_entries:
             full_name = f"{first} {last}".strip()
             outfile.write(full_name + "\n")
 
-    print(f"Processing complete:")
-    print(f"  - Raw lines read from '{INPUT_FILE}': {raw_line_count}")
-    print(f"  - Cleaned, sorted lines written to '{OUTPUT_FILE}': {len(sorted_names)}")
-    if sorted_names:
-        first_entry = f"{sorted_names[0][0]} {sorted_names[0][1]}".strip()
-        last_entry = f"{sorted_names[-1][0]} {sorted_names[-1][1]}".strip()
-        print(f"  - First entry: {first_entry}")
-        print(f"  - Last entry:  {last_entry}")
+    print("=== Processing Summary ===")
+    print(f"Lines read from '{INPUT_FILE}': {raw_line_count}")
+    print(f"Lines written to '{OUTPUT_FILE}': {len(sorted_entries)}")
+    print(f"Difference: {raw_line_count - len(sorted_entries)} blank lines removed.\n")
+
+    print("Output preview:")
+    for first, last in sorted_entries:
+        print(f"  - {first} {last}")
 
 
 if __name__ == "__main__":
     main()
+    

@@ -3,6 +3,6 @@ Grace Hopper
 Katherine Johnson
 Barbara Liskov
 Ada Lovelace
-Guido Van Rossum
 Linus Torvalds
 Alan Turing
+Guido van Rossum
