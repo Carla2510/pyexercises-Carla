@@ -33,3 +33,22 @@ DELIVERABLE
 
 
 # Your code below
+def greet(items):
+    if not items:
+        return "Hello! Your list is currently empty."
+    return f"Hello! Your list has {len(items)} items, with a total sum of {sum(items)}."
+
+
+list1 = [4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 1]
+list2 = [10, 20, 30]
+list3 = []
+
+
+res1 = greet(list1)
+res2 = greet(list2)
+res3 = greet(list3)
+
+# Displaying the results
+print(res1)
+print(res2)
+print(res3)
