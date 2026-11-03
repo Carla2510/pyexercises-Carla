@@ -373,3 +373,12 @@ print(apple_count)
 ```
 
 What argument does `count` take?
+
+---
+## 2026-11-03 17:37, in .
+
+**Me:** what is a cvs document
+
+**Tutor:**
+
+Refused, off topic.
