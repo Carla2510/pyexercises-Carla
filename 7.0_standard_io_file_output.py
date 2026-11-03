@@ -29,10 +29,10 @@ DELIVERABLE
     This file, plus the CSV your program produced.
 """
 
-# 1. In:
-# 2. Process:
-# 3. Out, file name and columns:
-# 4. Why these columns, and what this file is for:
+# 1. In:name, last name, date of birth, student ID
+# 2. Process:enter the data, check if the file exists, if not create it and write the header, then append the new entry to the file
+# 3. Out, file name and columns:student data.csv with columns: First Name, Last Name, Date of Birth, Student ID
+# 4. Why these columns, and what this file is for:to collect basic student information for record-keeping and administrative purposes. Once the file has two hundred rows, it can be used for generating reports, tracking student demographics, and managing student records efficiently.
 
 
 # Your code below
